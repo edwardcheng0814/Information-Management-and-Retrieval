@@ -1,0 +1,70 @@
+-- Create Admin Account table
+CREATE TABLE Admin_Account (
+    Admin_ID INT PRIMARY KEY,
+    Admin_Name VARCHAR(50) FOREIGN KEY REFERENCES Trail_App(Admin_ID),
+    Admin_Password VARCHAR(50),
+    Admin_Picture VARCHAR(100),
+    Created_Trail INT FOREIGN KEY REFERENCES Trail(Trail_ID)
+);
+
+-- Create Trail table
+CREATE TABLE Trail (
+    Trail_ID INT PRIMARY KEY,
+    Trail_Name VARCHAR(100),
+    Location VARCHAR(100),
+    Distance DECIMAL(5,2),
+    Trail_Picture VARCHAR(100),
+    Trail_Grade VARCHAR(20),
+    Reviews INT FOREIGN KEY REFERENCES Comment(Comment_ID)
+);
+
+-- Create Comment table
+CREATE TABLE Comment (
+    Comment_ID INT PRIMARY KEY,
+    Username VARCHAR(50) FOREIGN KEY REFERENCES User_Account(Username),
+    Activities_Name VARCHAR(50),
+    Date_Rating DATE,
+    Level_of_conditions VARCHAR(50),
+    Comment VARCHAR(500)
+);
+
+-- Create User Account table
+CREATE TABLE User_Account (
+    User_ID INT PRIMARY KEY,
+    Username VARCHAR(50),
+    First_Name VARCHAR(50),
+    Last_Name VARCHAR(50),
+    Join_Date DATE,
+    Home_Address VARCHAR(100),
+    Picture VARCHAR(100),
+    Activities VARCHAR(100),
+    Comments INT FOREIGN KEY REFERENCES Comment(Comment_ID)
+);
+
+-- Create Trail App table
+CREATE TABLE Trail_App (
+    App_ID INT PRIMARY KEY,
+    Trail_ID INT FOREIGN KEY REFERENCES Trail(Trail_ID),
+    User_ID INT FOREIGN KEY REFERENCES User_Account(User_ID),
+    Admin_ID INT FOREIGN KEY REFERENCES Admin_Account(Admin_ID)
+);
+
+-- Insert data into Admin Account table
+INSERT INTO Admin_Account (Admin_ID, Admin_Name, Admin_Password, Admin_Picture, Created_Trail)
+VALUES (1, 'JohnDoe', 'password123', 'https://example.com/picture.jpg', 1);
+
+-- Insert data into Trail table
+INSERT INTO Trail (Trail_ID, Trail_Name, Location, Distance, Trail_Picture, Trail_Grade, Reviews)
+VALUES (1, 'Example Trail', '123 Main St, Anytown USA', 3.5, 'https://example.com/trail.jpg', 'Moderate', 1);
+
+-- Insert data into Comment table
+INSERT INTO Comment (Comment_ID, Username, Activities_Name, Date_Rating, Level_of_conditions, Comment)
+VALUES (1, 'JaneDoe', 'Hiking', '2022-01-01', 'Good', 'This trail was great!');
+
+-- Insert data into User Account table
+INSERT INTO User_Account (User_ID, Username, First_Name, Last_Name, Join_Date, Home_Address, Picture, Activities, Comments)
+VALUES (1, 'JaneDoe', 'Jane', 'Doe', '2021-01-01', '456 Oak St, Anytown USA', 'https://example.com/picture.jpg', 'Hiking, Camping', 1);
+
+-- Insert data into Trail App table
+INSERT INTO Trail_App (App_ID, Trail_ID, User_ID, Admin_ID)
+VALUES (1, 1, 1, 1);
